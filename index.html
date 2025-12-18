@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Constelação Familiar com Medicina do Cacau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #1a1a1a;
+            padding: 40px;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .slide {
+            width: 960px;
+            height: 540px;
+            margin: 30px auto;
+            background: linear-gradient(135deg, #4A1C1C 0%, #2D0F0F 50%, #1F0A0A 100%);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 60px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+        }
+
+        /* Elementos decorativos de canto */
+        .corner-decoration {
+            position: absolute;
+            width: 120px;
+            height: 120px;
+            border: 1px solid rgba(212, 175, 55, 0.35);
+        }
+
+        .corner-decoration.top-left {
+            top: 30px;
+            left: 30px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.top-right {
+            top: 30px;
+            right: 30px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .corner-decoration.bottom-left {
+            bottom: 30px;
+            left: 30px;
+            border-right: none;
+            border-top: none;
+        }
+
+        .corner-decoration.bottom-right {
+            bottom: 30px;
+            right: 30px;
+            border-left: none;
+            border-top: none;
+        }
+
+        /* Pequenos detalhes nos cantos */
+        .corner-decoration::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: rgba(212, 175, 55, 0.4);
+            transform: rotate(45deg);
+        }
+
+        .corner-decoration.top-left::after {
+            top: -4px;
+            left: -4px;
+        }
+
+        .corner-decoration.top-right::after {
+            top: -4px;
+            right: -4px;
+        }
+
+        .corner-decoration.bottom-left::after {
+            bottom: -4px;
+            left: -4px;
+        }
+
+        .corner-decoration.bottom-right::after {
+            bottom: -4px;
+            right: -4px;
+        }
+
+        /* MARCA D'ÁGUA ELEGANTE */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 90px;
+            font-weight: 300;
+            font-style: italic;
+            color: rgba(212, 175, 55, 0.04);
+            letter-spacing: 15px;
+            white-space: nowrap;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Brilho sutil decorativo */
+        .glow-accent {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.03) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .glow-accent.top {
+            top: -100px;
+            right: -50px;
+        }
+
+        .glow-accent.bottom {
+            bottom: -100px;
+            left: -50px;
+        }
+
+        .gold-line {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+            margin: 20px 0;
+        }
+
+        .gold-line.long {
+            width: 200px;
+        }
+
+        /* Tipografia - MAIS VISÍVEL */
+        .title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 44px;
+            font-weight: 400;
+            color: #D4AF37;
+            text-align: center;
+            letter-spacing: 3px;
+            line-height: 1.3;
+            text-shadow: 0 2px 20px rgba(212, 175, 55, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            color: rgba(212, 175, 55, 0.85);
+            text-align: center;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: 15px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 38px;
+            font-weight: 400;
+            color: #D4AF37;
+            text-align: center;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 15px rgba(212, 175, 55, 0.15);
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-subtitle {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 11px;
+            font-weight: 400;
+            color: rgba(212, 175, 55, 0.65);
+            text-align: center;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Lista de itens - MAIS VISÍVEL */
+        .content-list {
+            list-style: none;
+            text-align: left;
+            max-width: 620px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-list li {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 17px;
+            font-weight: 400;
+            color: #FAF0E6;
+            margin: 20px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.7;
+        }
+
+        .content-list li::before {
+            content: "◆";
+            position: absolute;
+            left: 0;
+            color: #D4AF37;
+            font-size: 9px;
+            top: 6px;
+        }
+
+        .content-list li strong {
+            color: #E8C547;
+            font-weight: 500;
+        }
+
+        .content-list li em {
+            color: rgba(250, 240, 230, 0.8);
+            font-style: italic;
+        }
+
+        /* Citação - MAIS VISÍVEL */
+        .quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 400;
+            font-style: italic;
+            color: #FAF0E6;
+            text-align: center;
+            max-width: 700px;
+            line-height: 1.7;
+            position: relative;
+            z-index: 2;
+        }
+
+        .quote-mark {
+            font-size: 60px;
+            color: rgba(212, 175, 55, 0.4);
+            font-family: 'Cormorant Garamond', serif;
+            line-height: 0;
+        }
+
+        /* Slide final */
+        .closing-text {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 34px;
+            font-weight: 400;
+            color: #D4AF37;
+            text-align: center;
+            line-height: 1.8;
+            text-shadow: 0 2px 20px rgba(212, 175, 55, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        .closing-text em {
+            color: #E8C547;
+        }
+
+        /* Nome Carol Costa */
+        .author-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 30px;
+            font-weight: 400;
+            font-style: italic;
+            color: #D4AF37;
+            text-align: center;
+            letter-spacing: 3px;
+            margin-top: 10px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Número do slide */
+        .slide-number {
+            position: absolute;
+            bottom: 25px;
+            right: 40px;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 14px;
+            color: rgba(212, 175, 55, 0.5);
+            letter-spacing: 2px;
+        }
+
+        /* COPYRIGHT SIMPLIFICADO */
+        .copyright {
+            position: absolute;
+            bottom: 14px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 9px;
+            font-weight: 400;
+            color: rgba(212, 175, 55, 0.45);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        /* Elemento decorativo central */
+        .decorative-element {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 25px 0;
+            position: relative;
+            z-index: 2;
+        }
+
+        .decorative-element .dot {
+            width: 7px;
+            height: 7px;
+            background: #D4AF37;
+            transform: rotate(45deg);
+            box-shadow: 0 0 10px rgba(212, 175, 55, 0.4);
+        }
+
+        .decorative-element .line {
+            width: 60px;
+            height: 1px;
+            background: rgba(212, 175, 55, 0.5);
+        }
+
+        /* Linha decorativa extra nos lados */
+        .side-accent {
+            position: absolute;
+            width: 1px;
+            height: 80px;
+            background: linear-gradient(180deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+        }
+
+        .side-accent.left {
+            left: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .side-accent.right {
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        /* Background pattern sutil */
+        .slide::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(ellipse at center, transparent 0%, rgba(0,0,0,0.25) 100%);
+            pointer-events: none;
+        }
+
+        .slide-label {
+            position: absolute;
+            top: -25px;
+            left: 0;
+            font-size: 12px;
+            color: #666;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .slide-wrapper {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- SLIDE 1 - CAPA -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 1 - Capa</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+            
+            <h1 class="title">Constelação Familiar<br>com a Medicina do Cacau</h1>
+            
+            <div class="gold-line long"></div>
+            
+            <p class="subtitle">Preparação para o Atendimento</p>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+
+            <span class="copyright">© 2025 @carolcosta.official</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 - ANTES DO ATENDIMENTO -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 2 - Antes do Atendimento</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Antes do Atendimento</h2>
+            <p class="section-subtitle">Alimentação e Cuidados</p>
+            
+            <ul class="content-list">
+                <li>Jejum mínimo de <strong>3 horas</strong></li>
+                <li><strong>Sem álcool</strong> nas 24 horas anteriores</li>
+                <li>Evitar excesso de <strong>cafeína</strong> no dia</li>
+                <li>Refeição leve antes do jejum — <em>comida de verdade, nada pesado ou industrializado</em></li>
+            </ul>
+            
+            <span class="slide-number">01</span>
+            <span class="copyright">© 2025 @carolcosta.official</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 - SONO E DESCANSO -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 3 - Sono e Descanso</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Sono e Descanso</h2>
+            <p class="section-subtitle">Prepare seu corpo para a vivência</p>
+            
+            <ul class="content-list">
+                <li>Priorize uma <strong>boa noite de sono</strong></li>
+                <li>Chá de <strong>camomila</strong> antes de dormir para acalmar o sistema nervoso</li>
+                <li>Evite <strong>telas, discussões</strong> ou estímulos intensos na noite anterior</li>
+            </ul>
+            
+            <span class="slide-number">02</span>
+            <span class="copyright">© 2025 @carolcosta.official</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 - CORPO E MENTE -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 4 - Corpo e Mente</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Corpo e Mente</h2>
+            <p class="section-subtitle">No dia do atendimento</p>
+            
+            <ul class="content-list">
+                <li>Venha com roupas <strong>confortáveis</strong></li>
+                <li><strong>Hidrate-se</strong> bem ao longo do dia</li>
+                <li>Chegue <strong>alguns minutos antes</strong> para desacelerar</li>
+                <li>Traga <strong>papel e caneta</strong> se desejar anotar após a vivência</li>
+            </ul>
+            
+            <span class="slide-number">03</span>
+            <span class="copyright">© 2025 @carolcosta.offical</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 - POSTURA INTERNA -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 5 - Postura Interna</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Postura Interna</h2>
+            <p class="section-subtitle">Como se preparar emocionalmente</p>
+            
+            <ul class="content-list">
+                <li>Venha com <strong>abertura</strong>, sem expectativas rígidas</li>
+                <li><strong>Confiança</strong> no processo e respeito aos seus próprios limites</li>
+            </ul>
+            
+            <div class="gold-line" style="margin: 30px 0;"></div>
+            
+            <p class="quote">
+                <span class="quote-mark">"</span><br>
+                Não é sobre entender tudo com a mente, é sobre permitir que o corpo e o campo mostrem o que precisa ser visto.
+            </p>
+            
+            <span class="slide-number">04</span>
+            <span class="copyright">© 2025 @carolcosta.official</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 - ENCERRAMENTO -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 6 - Encerramento</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+            
+            <p class="closing-text">
+                Confie no processo.<br>
+                <em>Seu corpo sabe o caminho.</em>
+            </p>
+            
+            <div class="gold-line long" style="margin: 40px 0;"></div>
+            
+            <p class="author-name">Carol Costa</p>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+            
+            <span class="slide-number">05</span>
+            <span class="copyright">© 2025 @carolcosta.official</span>
+        </div>
+    </div>
+
+    <!-- BOTÃO DE EXPORTAR PDF -->
+<div style="position: fixed; top: 20px; right: 20px; z-index: 9999;">
+    <button onclick="exportarPDF()" style="
+        background: #D4AF37;
+        color: #1F0A0A;
+        border: none;
+        padding: 15px 30px;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 500;
+        border-radius: 4px;
+        cursor: pointer;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+        font-size: 14px;
+        letter-spacing: 1px;
+    ">
+        📄 EXPORTAR PDF
+    </button>
+</div>
+
+<!-- Biblioteca html2pdf -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+<script>
+function exportarPDF() {
+    // Esconde os labels dos slides
+    document.querySelectorAll('.slide-label').forEach(el => el.style.display = 'none');
+    
+    const element = document.body;
+    const opt = {
+        margin: 0,
+        filename: 'Carol_Costa_Constelacao_Cacau.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 2,
+            backgroundColor: '#1a1a1a',
+            logging: false
+        },
+        jsPDF: { 
+            unit: 'px', 
+            format: [960, 540], 
+            orientation: 'landscape',
+            compress: true
+        },
+        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+    };
+    
+    html2pdf().set(opt).from(element).save().then(() => {
+        // Mostra os labels novamente
+        document.querySelectorAll('.slide-label').forEach(el => el.style.display = 'block');
+        alert('✅ PDF exportado com sucesso!');
+    });
+}
+</script>
+
+</body>
+</html>
