@@ -6,8 +6,9 @@
     <title>Constelação Familiar com Medicina do Cacau</title>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- BIBLIOTECA PARA PDF -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <!-- BIBLIOTECAS PARA PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     
     <style>
         * {
@@ -36,11 +37,8 @@
             align-items: center;
             padding: 60px;
             box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-            page-break-after: always;
-            page-break-inside: avoid;
         }
 
-        /* Elementos decorativos de canto */
         .corner-decoration {
             position: absolute;
             width: 120px;
@@ -105,7 +103,6 @@
             right: -4px;
         }
 
-        /* MARCA D'ÁGUA ELEGANTE */
         .watermark {
             position: absolute;
             top: 50%;
@@ -411,20 +408,39 @@
             cursor: wait;
         }
 
-        /* Esconde elementos para impressão */
-        @media print {
-            .export-btn, .slide-label {
-                display: none !important;
-            }
-            body {
-                padding: 0;
-                background: white;
-            }
-            .slide {
-                margin: 0;
-                box-shadow: none;
-                page-break-after: always;
-            }
+        /* BARRA DE PROGRESSO */
+        .progress-container {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            background: rgba(0,0,0,0.8);
+            padding: 15px 20px;
+            border-radius: 8px;
+            display: none;
+            min-width: 200px;
+        }
+
+        .progress-text {
+            color: #D4AF37;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(212, 175, 55, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #D4AF37;
+            width: 0%;
+            transition: width 0.3s ease;
         }
     </style>
 </head>
@@ -435,210 +451,219 @@
         📄 EXPORTAR PDF
     </button>
 
-    <!-- CONTAINER DOS SLIDES -->
-    <div id="slides-container">
-
-        <!-- SLIDE 1 - CAPA -->
-        <div class="slide-wrapper">
-            <span class="slide-label">Slide 1 - Capa</span>
-            <div class="slide">
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
-                <div class="glow-accent top"></div>
-                <div class="glow-accent bottom"></div>
-                <span class="watermark">Carol Costa</span>
-                
-                <div class="decorative-element">
-                    <span class="line"></span>
-                    <span class="dot"></span>
-                    <span class="line"></span>
-                </div>
-                
-                <h1 class="title">Constelação Familiar<br>com a Medicina do Cacau</h1>
-                
-                <div class="gold-line long"></div>
-                
-                <p class="subtitle">Preparação para o Atendimento</p>
-                
-                <div class="decorative-element">
-                    <span class="line"></span>
-                    <span class="dot"></span>
-                    <span class="line"></span>
-                </div>
-
-                <span class="copyright">© 2025 Todos os direitos reservados</span>
-            </div>
+    <!-- BARRA DE PROGRESSO -->
+    <div class="progress-container" id="progressContainer">
+        <div class="progress-text" id="progressText">Preparando...</div>
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
         </div>
-
-        <!-- SLIDE 2 - ANTES DO ATENDIMENTO -->
-        <div class="slide-wrapper">
-            <span class="slide-label">Slide 2 - Antes do Atendimento</span>
-            <div class="slide">
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
-                <div class="glow-accent top"></div>
-                <div class="glow-accent bottom"></div>
-                <div class="side-accent left"></div>
-                <div class="side-accent right"></div>
-                <span class="watermark">Carol Costa</span>
-                
-                <h2 class="section-title">Antes do Atendimento</h2>
-                <p class="section-subtitle">Alimentação e Cuidados</p>
-                
-                <ul class="content-list">
-                    <li>Jejum mínimo de <strong>3 horas</strong></li>
-                    <li><strong>Sem álcool</strong> nas 24 horas anteriores</li>
-                    <li>Evitar excesso de <strong>cafeína</strong> no dia</li>
-                    <li>Refeição leve antes do jejum — <em>comida de verdade, nada pesado ou industrializado</em></li>
-                </ul>
-                
-                <span class="slide-number">01</span>
-                <span class="copyright">© 2025 Todos os direitos reservados</span>
-            </div>
-        </div>
-
-        <!-- SLIDE 3 - SONO E DESCANSO -->
-        <div class="slide-wrapper">
-            <span class="slide-label">Slide 3 - Sono e Descanso</span>
-            <div class="slide">
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
-                <div class="glow-accent top"></div>
-                <div class="glow-accent bottom"></div>
-                <div class="side-accent left"></div>
-                <div class="side-accent right"></div>
-                <span class="watermark">Carol Costa</span>
-                
-                <h2 class="section-title">Sono e Descanso</h2>
-                <p class="section-subtitle">Prepare seu corpo para a vivência</p>
-                
-                <ul class="content-list">
-                    <li>Priorize uma <strong>boa noite de sono</strong></li>
-                    <li>Chá de <strong>camomila</strong> antes de dormir para acalmar o sistema nervoso</li>
-                    <li>Evite <strong>telas, discussões</strong> ou estímulos intensos na noite anterior</li>
-                </ul>
-                
-                <span class="slide-number">02</span>
-                <span class="copyright">© 2025 Todos os direitos reservados</span>
-            </div>
-        </div>
-
-        <!-- SLIDE 4 - CORPO E MENTE -->
-        <div class="slide-wrapper">
-            <span class="slide-label">Slide 4 - Corpo e Mente</span>
-            <div class="slide">
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
-                <div class="glow-accent top"></div>
-                <div class="glow-accent bottom"></div>
-                <div class="side-accent left"></div>
-                <div class="side-accent right"></div>
-                <span class="watermark">Carol Costa</span>
-                
-                <h2 class="section-title">Corpo e Mente</h2>
-                <p class="section-subtitle">No dia do atendimento</p>
-                
-                <ul class="content-list">
-                    <li>Venha com roupas <strong>confortáveis</strong></li>
-                    <li><strong>Hidrate-se</strong> bem ao longo do dia</li>
-                    <li>Chegue <strong>alguns minutos antes</strong> para desacelerar</li>
-                    <li>Traga <strong>papel e caneta</strong> se desejar anotar após a vivência</li>
-                </ul>
-                
-                <span class="slide-number">03</span>
-                <span class="copyright">© 2025 Todos os direitos reservados</span>
-            </div>
-        </div>
-
-        <!-- SLIDE 5 - POSTURA INTERNA -->
-        <div class="slide-wrapper">
-            <span class="slide-label">Slide 5 - Postura Interna</span>
-            <div class="slide">
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
-                <div class="glow-accent top"></div>
-                <div class="glow-accent bottom"></div>
-                <div class="side-accent left"></div>
-                <div class="side-accent right"></div>
-                <span class="watermark">Carol Costa</span>
-                
-                <h2 class="section-title">Postura Interna</h2>
-                <p class="section-subtitle">Como se preparar emocionalmente</p>
-                
-                <ul class="content-list">
-                    <li>Venha com <strong>abertura</strong>, sem expectativas rígidas</li>
-                    <li><strong>Confiança</strong> no processo e respeito aos seus próprios limites</li>
-                </ul>
-                
-                <div class="gold-line" style="margin: 30px 0;"></div>
-                
-                <p class="quote">
-                    <span class="quote-mark">"</span><br>
-                    Não é sobre entender tudo com a mente, é sobre permitir que o corpo e o campo mostrem o que precisa ser visto.
-                </p>
-                
-                <span class="slide-number">04</span>
-                <span class="copyright">© 2025 Todos os direitos reservados</span>
-            </div>
-        </div>
-
-        <!-- SLIDE 6 - ENCERRAMENTO -->
-        <div class="slide-wrapper">
-            <span class="slide-label">Slide 6 - Encerramento</span>
-            <div class="slide">
-                <div class="corner-decoration top-left"></div>
-                <div class="corner-decoration top-right"></div>
-                <div class="corner-decoration bottom-left"></div>
-                <div class="corner-decoration bottom-right"></div>
-                <div class="glow-accent top"></div>
-                <div class="glow-accent bottom"></div>
-                <span class="watermark">Carol Costa</span>
-                
-                <div class="decorative-element">
-                    <span class="line"></span>
-                    <span class="dot"></span>
-                    <span class="line"></span>
-                </div>
-                
-                <p class="closing-text">
-                    Confie no processo.<br>
-                    <em>Seu corpo sabe o caminho.</em>
-                </p>
-                
-                <div class="gold-line long" style="margin: 40px 0;"></div>
-                
-                <p class="author-name">Carol Costa</p>
-                
-                <div class="decorative-element">
-                    <span class="line"></span>
-                    <span class="dot"></span>
-                    <span class="line"></span>
-                </div>
-                
-                <span class="slide-number">05</span>
-                <span class="copyright">© 2025 Todos os direitos reservados</span>
-            </div>
-        </div>
-
     </div>
 
-    <!-- SCRIPT DE EXPORTAÇÃO -->
+    <!-- SLIDE 1 - CAPA -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 1 - Capa</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+            
+            <h1 class="title">Constelação Familiar<br>com a Medicina do Cacau</h1>
+            
+            <div class="gold-line long"></div>
+            
+            <p class="subtitle">Preparação para o Atendimento</p>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+
+            <span class="copyright">© 2025 Todos os direitos reservados</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 - ANTES DO ATENDIMENTO -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 2 - Antes do Atendimento</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Antes do Atendimento</h2>
+            <p class="section-subtitle">Alimentação e Cuidados</p>
+            
+            <ul class="content-list">
+                <li>Jejum mínimo de <strong>3 horas</strong></li>
+                <li><strong>Sem álcool</strong> nas 24 horas anteriores</li>
+                <li>Evitar excesso de <strong>cafeína</strong> no dia</li>
+                <li>Refeição leve antes do jejum — <em>comida de verdade, nada pesado ou industrializado</em></li>
+            </ul>
+            
+            <span class="slide-number">01</span>
+            <span class="copyright">© 2025 Todos os direitos reservados</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 - SONO E DESCANSO -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 3 - Sono e Descanso</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Sono e Descanso</h2>
+            <p class="section-subtitle">Prepare seu corpo para a vivência</p>
+            
+            <ul class="content-list">
+                <li>Priorize uma <strong>boa noite de sono</strong></li>
+                <li>Chá de <strong>camomila</strong> antes de dormir para acalmar o sistema nervoso</li>
+                <li>Evite <strong>telas, discussões</strong> ou estímulos intensos na noite anterior</li>
+            </ul>
+            
+            <span class="slide-number">02</span>
+            <span class="copyright">© 2025 Todos os direitos reservados</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 - CORPO E MENTE -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 4 - Corpo e Mente</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Corpo e Mente</h2>
+            <p class="section-subtitle">No dia do atendimento</p>
+            
+            <ul class="content-list">
+                <li>Venha com roupas <strong>confortáveis</strong></li>
+                <li><strong>Hidrate-se</strong> bem ao longo do dia</li>
+                <li>Chegue <strong>alguns minutos antes</strong> para desacelerar</li>
+                <li>Traga <strong>papel e caneta</strong> se desejar anotar após a vivência</li>
+            </ul>
+            
+            <span class="slide-number">03</span>
+            <span class="copyright">© 2025 Todos os direitos reservados</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 - POSTURA INTERNA -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 5 - Postura Interna</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <div class="side-accent left"></div>
+            <div class="side-accent right"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <h2 class="section-title">Postura Interna</h2>
+            <p class="section-subtitle">Como se preparar emocionalmente</p>
+            
+            <ul class="content-list">
+                <li>Venha com <strong>abertura</strong>, sem expectativas rígidas</li>
+                <li><strong>Confiança</strong> no processo e respeito aos seus próprios limites</li>
+            </ul>
+            
+            <div class="gold-line" style="margin: 30px 0;"></div>
+            
+            <p class="quote">
+                <span class="quote-mark">"</span><br>
+                Não é sobre entender tudo com a mente, é sobre permitir que o corpo e o campo mostrem o que precisa ser visto.
+            </p>
+            
+            <span class="slide-number">04</span>
+            <span class="copyright">© 2025 Todos os direitos reservados</span>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 - ENCERRAMENTO -->
+    <div class="slide-wrapper">
+        <span class="slide-label">Slide 6 - Encerramento</span>
+        <div class="slide">
+            <div class="corner-decoration top-left"></div>
+            <div class="corner-decoration top-right"></div>
+            <div class="corner-decoration bottom-left"></div>
+            <div class="corner-decoration bottom-right"></div>
+            <div class="glow-accent top"></div>
+            <div class="glow-accent bottom"></div>
+            <span class="watermark">Carol Costa</span>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+            
+            <p class="closing-text">
+                Confie no processo.<br>
+                <em>Seu corpo sabe o caminho.</em>
+            </p>
+            
+            <div class="gold-line long" style="margin: 40px 0;"></div>
+            
+            <p class="author-name">Carol Costa</p>
+            
+            <div class="decorative-element">
+                <span class="line"></span>
+                <span class="dot"></span>
+                <span class="line"></span>
+            </div>
+            
+            <span class="slide-number">05</span>
+            <span class="copyright">© 2025 Todos os direitos reservados</span>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE EXPORTAÇÃO CORRIGIDO -->
     <script>
         async function exportarPDF() {
             const btn = document.querySelector('.export-btn');
+            const progressContainer = document.getElementById('progressContainer');
+            const progressText = document.getElementById('progressText');
+            const progressFill = document.getElementById('progressFill');
+            
+            // Desabilita botão e mostra progresso
             btn.disabled = true;
-            btn.textContent = '⏳ Gerando PDF...';
-
+            btn.textContent = '⏳ Aguarde...';
+            progressContainer.style.display = 'block';
+            
             // Esconde labels
             document.querySelectorAll('.slide-label').forEach(el => {
                 el.style.visibility = 'hidden';
@@ -646,53 +671,67 @@
 
             // Pega todos os slides
             const slides = document.querySelectorAll('.slide');
-            const { jsPDF } = window.jspdf || {};
+            const totalSlides = slides.length;
             
-            // Usa html2pdf
-            const element = document.getElementById('slides-container');
-            
-            const opt = {
-                margin: 0,
-                filename: 'Carol_Costa_Constelacao_Cacau.pdf',
-                image: { type: 'jpeg', quality: 1 },
-                html2canvas: { 
-                    scale: 2,
-                    useCORS: true,
-                    backgroundColor: '#1a1a1a',
-                    logging: false,
-                    windowWidth: 960
-                },
-                jsPDF: { 
-                    unit: 'px', 
-                    format: [960, 540], 
-                    orientation: 'landscape',
-                    hotfixes: ['px_scaling']
-                },
-                pagebreak: { 
-                    mode: 'css',
-                    before: '.slide-wrapper',
-                    after: '.slide',
-                    avoid: '.slide'
-                }
-            };
+            // Cria o PDF
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF({
+                orientation: 'landscape',
+                unit: 'px',
+                format: [960, 540]
+            });
 
             try {
-                // Exporta cada slide individualmente para melhor qualidade
-                const pdf = new html2pdf().set(opt);
+                for (let i = 0; i < totalSlides; i++) {
+                    // Atualiza progresso
+                    const percent = Math.round(((i + 1) / totalSlides) * 100);
+                    progressText.textContent = `Processando slide ${i + 1} de ${totalSlides}...`;
+                    progressFill.style.width = percent + '%';
+                    
+                    // Captura o slide
+                    const canvas = await html2canvas(slides[i], {
+                        scale: 2,
+                        useCORS: true,
+                        backgroundColor: '#1a1a1a',
+                        logging: false
+                    });
+                    
+                    // Adiciona ao PDF
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    
+                    if (i > 0) {
+                        pdf.addPage([960, 540], 'landscape');
+                    }
+                    
+                    pdf.addImage(imgData, 'JPEG', 0, 0, 960, 540);
+                }
                 
-                await html2pdf().set(opt).from(element).save();
+                // Salva o PDF
+                progressText.textContent = 'Salvando PDF...';
+                progressFill.style.width = '100%';
                 
+                pdf.save('Carol_Costa_Constelacao_Cacau.pdf');
+                
+                // Sucesso
                 btn.textContent = '✅ PDF Salvo!';
+                progressText.textContent = 'Concluído!';
+                
                 setTimeout(() => {
                     btn.textContent = '📄 EXPORTAR PDF';
                     btn.disabled = false;
+                    progressContainer.style.display = 'none';
+                    progressFill.style.width = '0%';
                 }, 3000);
+                
             } catch (error) {
                 console.error('Erro:', error);
-                btn.textContent = '❌ Erro - Tente Ctrl+P';
+                btn.textContent = '❌ Erro';
+                progressText.textContent = 'Erro: ' + error.message;
+                
                 setTimeout(() => {
                     btn.textContent = '📄 EXPORTAR PDF';
                     btn.disabled = false;
+                    progressContainer.style.display = 'none';
                 }, 3000);
             }
 
