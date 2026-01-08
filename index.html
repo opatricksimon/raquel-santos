@@ -33,16 +33,19 @@
             --text-light: #6B7D73;
             --white: #FFFFFF;
 
-         /* ================================
-           REGULADOR DO HERO (posição vertical do conteúdo)
-           - Valores negativos sobem o conteúdo
-           - Valores positivos descem o conteúdo
-        ================================ */
-            --hero-content-shift-desktop: 150px;
-            --hero-content-shift-mobile: 150px;
+        
+/* ================================
+   REGULADORES DO HERO
+   - Positivo = desce
+   - Negativo = sobe
+   - CADA UM É 100% INDEPENDENTE
+================================ */
+--move-badge: 130px;
+--move-titulo: 110px;
+--move-subtitulo: 110px;
+--move-botoes: 100px;
+--move-micro: 100px;
 
-         /* não mexa (apenas “ponte” responsiva) */
-            --hero-content-shift: var(--hero-content-shift-desktop);
 
             /* ================================
    REGULADOR CTA DO HEADER
@@ -528,14 +531,7 @@
             max-width: 800px;
             text-align: center;
             padding: 120px 0 80px;
-            transform: translateY(var(--hero-content-shift));
         }
-
-        @media (max-width: 700px) {
-          :root {
-            --hero-content-shift: var(--hero-content-shift-mobile);
-          }
-         }
         
         .hero-badge {
             display: inline-flex;
@@ -550,6 +546,7 @@
             color: var(--white);
             margin-bottom: 24px;
             border: 1px solid rgba(255,255,255,0.2);
+            margin-top: var(--hero-badge-offset);
         }
         
         .hero-badge span {
@@ -1765,6 +1762,45 @@
   display: inline-flex !important;
   margin: 0 auto !important;
 }
+
+/* ================================================
+   HERO - POSICIONAMENTO INDEPENDENTE
+   Usa translate que NÃO afeta outros elementos
+================================================ */
+.hero-badge {
+    position: relative !important;
+    top: var(--move-badge) !important;
+}
+
+.hero h1 {
+    position: relative !important;
+    top: var(--move-titulo) !important;
+}
+
+.hero-subtitle {
+    position: relative !important;
+    top: var(--move-subtitulo) !important;
+}
+
+.hero-cta {
+    position: relative !important;
+    top: var(--move-botoes) !important;
+}
+
+.hero-micro {
+    position: relative !important;
+    top: var(--move-micro) !important;
+}
+
+/* Impede o hero de crescer quando move elementos */
+.hero-content {
+    overflow: visible !important;
+}
+
+.hero {
+    overflow: hidden !important;
+}
+
     </style>
 </head>
 <body>
